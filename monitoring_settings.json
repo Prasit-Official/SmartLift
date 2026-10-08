@@ -1,0 +1,17 @@
+{
+  "neck_warning": 1,
+  "neck_danger": 2,
+  "head_delta": 12,
+  "head_absolute": 20,
+  "head_confidence": 0.2,
+  "leg_rise": 0.08,
+  "zone_margin": 0.04,
+  "leg_dwell": 0,
+  "forbidden_dwell": 2,
+  "posture_dwell": 0,
+  "zone_dwell": 0.5,
+  "confidence": 0.5,
+  "max_gap": 1.5,
+  "max_people": 10,
+  "snapshot_cooldown": 2
+}

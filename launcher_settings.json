@@ -1,0 +1,14 @@
+{
+  "mode": "monitoring",
+  "source_type": "image",
+  "camera": "0",
+  "video": "",
+  "image": "C:/Users/Nonglak/OneDrive/เอกสาร/24811.jpg",
+  "camera_name": "",
+  "camera_path": "",
+  "camera_backend": 0,
+  "subject": "",
+  "sound": false,
+  "side": "left",
+  "model": "C:\\Users\\Nonglak\\OneDrive\\Desktop\\LiftSaveWithAi\\models\\yolo11n-pose.pt"
+}

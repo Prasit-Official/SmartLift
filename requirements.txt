@@ -1,0 +1,9 @@
+# Core desktop runner. Lock exact versions after testing on the target PC.
+ultralytics>=8.3,<9
+opencv-python>=4.10,<5
+numpy>=1.26,<3
+Pillow>=10,<13
+cv2-enumerate-cameras>=1.2,<2
+
+# ByteTrack association for the multi-person monitoring mode
+lap>=0.5.12,<1

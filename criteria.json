@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0-prototype",
+  "validated": false,
+  "note": "ค่าตัวเลขเป็นค่าทดลองทางวิศวกรรม ไม่ใช่เกณฑ์มุมที่ HSE/NIOSH รับรอง ต้องตรวจเทียบกับอาจารย์ก่อนตัดสินผ่านจริง",
+  "quality": {
+    "keypoint_confidence": 0.5,
+    "max_gap_seconds": 0.5,
+    "smoothing_seconds": 0.15
+  },
+  "cycle": {
+    "down_knee_max": 140,
+    "up_knee_min": 160,
+    "up_trunk_max": 25,
+    "dwell_seconds": 0.25,
+    "max_cycle_seconds": 20
+  },
+  "rules": {
+    "stoop_trunk_min": 45,
+    "stoop_knee_min": 145,
+    "trunk_review_min": 35
+  },
+  "standing": {
+    "movement_change_degrees": 8,
+    "reminder_seconds": 60,
+    "note": "เวลาเตือนเป็นตัวเลือกสาธิต ไม่ใช่ขีดจำกัดทางการแพทย์"
+  },
+  "sources": [
+    {
+      "id": "HSE",
+      "url": "https://www.hse.gov.uk/msd/manual-handling/good-handling-technique.htm",
+      "use": "qualitative lifting guidance; not angle thresholds"
+    },
+    {
+      "id": "NIOSH",
+      "url": "https://www.cdc.gov/niosh/ergonomics/about/rnle.html",
+      "use": "scope and additional load/task factors; RNLE not implemented"
+    },
+    {
+      "id": "CCOHS",
+      "url": "https://www.ccohs.ca/oshanswers/ergonomics/standing/standing_basic.html",
+      "use": "standing variation and workstation guidance"
+    },
+    {
+      "id": "COURSE_PDF",
+      "page": 17,
+      "use": "ท่ายกของ"
+    }
+  ]
+}

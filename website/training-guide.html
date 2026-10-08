@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiftSaveWithAi | เรียนรู้และฝึกท่าทาง</title>
+
+
+<style>
+  :root{
+    --bg:#14181D;
+    --bg-panel:#1B2129;
+    --bg-panel-2:#20272F;
+    --line:#2C343D;
+    --text:#ECE7DA;
+    --text-dim:#8B93A0;
+    --yellow:#F2B705;
+    --yellow-dim:#8a6c0f;
+    --orange:#E8562B;
+    --green:#4FA876;
+    --mono:'IBM Plex Mono', monospace;
+    --display:'Oswald', sans-serif;
+    --body:'IBM Plex Sans Thai', 'IBM Plex Sans', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+
+  .hazard-tab{
+    display:inline-block;
+    background:repeating-linear-gradient(135deg, var(--yellow), var(--yellow) 8px, #1a1a1a 8px, #1a1a1a 16px);
+    height:6px;
+    width:64px;
+    border-radius:2px;
+  }
+
+  /* ===== HEADER ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,24,29,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1180px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--display); font-weight:600; letter-spacing:0.5px;
+    font-size:1.05rem;
+  }
+  .logo-mark{
+    width:34px; height:34px;
+    background:var(--yellow);
+    color:#14181D;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-weight:700; font-size:1.1rem;
+    transform:skew(-6deg);
+  }
+  nav ul{list-style:none; display:flex; gap:28px;}
+  nav a{
+    font-size:0.92rem; color:var(--text-dim); text-decoration:none;
+    font-weight:500; letter-spacing:0.2px;
+    transition:color 0.2s;
+  }
+  nav a:hover, nav a:focus-visible{color:var(--yellow);}
+
+  /* ===== HERO ===== */
+  .hero{
+    max-width:1180px; margin:0 auto;
+    padding:72px 24px 60px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
+  }
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-size:0.78rem; letter-spacing:2px; text-transform:uppercase;
+    color:var(--yellow); margin-bottom:20px;
+  }
+  h1{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height:1.12; letter-spacing:0.2px;
+    margin-bottom:20px;
+  }
+  h1 em{font-style:normal; color:var(--yellow);}
+  .hero p{
+    color:var(--text-dim); font-size:1.05rem; max-width:52ch; margin-bottom:32px;
+  }
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--body); font-weight:600; font-size:0.95rem;
+    padding:14px 26px; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; gap:10px;
+    text-decoration:none;
+    transition:transform 0.15s ease, background 0.2s;
+  }
+  .btn:focus-visible{outline:2px solid var(--yellow); outline-offset:3px;}
+  .btn-primary{background:var(--yellow); color:#14181D;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:var(--text); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--yellow); color:var(--yellow);}
+
+  .hero-visual{
+    position:relative;
+    border:1px solid var(--line);
+    background:var(--bg-panel);
+    padding:22px;
+  }
+  .hero-visual::before{
+    content:'';
+    position:absolute; top:-1px; left:-1px;
+    width:26px; height:26px;
+    background:repeating-linear-gradient(135deg, var(--yellow), var(--yellow) 5px, #1a1a1a 5px, #1a1a1a 10px);
+  }
+  .gauge-label{
+    font-family:var(--mono); font-size:0.7rem; color:var(--text-dim);
+    letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px;
+    display:flex; justify-content:space-between;
+  }
+  .led{width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; margin-right:6px; box-shadow:0 0 6px var(--green);}
+
+  /* ===== SECTION SHARED ===== */
+  section{max-width:1180px; margin:0 auto; padding:90px 24px;}
+  .section-head{margin-bottom:48px; max-width:60ch;}
+  .section-tag{
+    font-family:var(--mono); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;
+    color:var(--yellow); margin-bottom:12px;
+  }
+  h2{
+    font-family:var(--display); font-weight:600; font-size:clamp(1.6rem, 3vw, 2.2rem);
+    letter-spacing:0.2px;
+  }
+  .section-head p{color:var(--text-dim); margin-top:12px;}
+
+  /* ===== PRINCIPLES ===== */
+  .principles-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1px; background:var(--line); border:1px solid var(--line);
+  }
+  .principle-card{
+    background:var(--bg-panel); padding:28px 24px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .p-num{
+    font-family:var(--mono); font-size:0.75rem; color:var(--yellow); letter-spacing:1px;
+  }
+  .p-svg{height:110px; display:flex; align-items:center; justify-content:center;}
+  .principle-card h3{
+    font-family:var(--display); font-weight:500; font-size:1.05rem; letter-spacing:0.2px;
+  }
+  .principle-card p{color:var(--text-dim); font-size:0.9rem;}
+
+  /* ===== PRACTICE ===== */
+  .practice-wrap{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:28px; align-items:start;
+  }
+  .monitor{
+    position:relative;
+    background:#0c0f13; border:1px solid var(--line);
+    padding:10px;
+  }
+  .monitor-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 10px 14px;
+    font-family:var(--mono); font-size:0.72rem; color:var(--text-dim); letter-spacing:1px;
+  }
+  .monitor-topbar .rec{color:var(--orange); display:flex; align-items:center; gap:6px;}
+  .rec .dot{width:7px;height:7px;border-radius:50%; background:var(--orange); box-shadow:0 0 6px var(--orange);}
+  .video-stage{
+    position:relative; width:100%; aspect-ratio:4/3;
+    background:#05070a; overflow:hidden;
+  }
+  .video-stage video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    transform:scaleX(-1);
+  }
+  .video-stage canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    transform:scaleX(-1);
+  }
+  .stage-overlay{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:16px; text-align:center; padding:24px;
+    background:rgba(5,7,10,0.88);
+    font-family:var(--body);
+  }
+  .stage-overlay p{color:var(--text-dim); font-size:0.9rem; max-width:34ch;}
+  .stage-overlay.hidden{display:none;}
+  .corner-tick{
+    position:absolute; width:16px; height:16px; border:2px solid var(--yellow);
+    opacity:0.85;
+  }
+  .ct-tl{top:8px; left:8px; border-right:none; border-bottom:none;}
+  .ct-tr{top:8px; right:8px; border-left:none; border-bottom:none;}
+  .ct-bl{bottom:8px; left:8px; border-right:none; border-top:none;}
+  .ct-br{bottom:8px; right:8px; border-left:none; border-top:none;}
+
+  .monitor-controls{
+    display:flex; gap:10px; padding:14px 10px 6px; flex-wrap:wrap;
+  }
+
+  .readout-panel{
+    display:flex; flex-direction:column; gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .readout-block{background:var(--bg-panel); padding:20px 22px;}
+  .readout-label{
+    font-family:var(--mono); font-size:0.72rem; color:var(--text-dim);
+    letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px;
+    display:flex; justify-content:space-between;
+  }
+  .gauge-bar{
+    height:8px; background:#0c0f13; border:1px solid var(--line); position:relative; margin-bottom:8px;
+  }
+  .gauge-fill{
+    height:100%; width:0%; background:var(--green);
+    transition:width 0.25s ease, background 0.25s ease;
+  }
+  .gauge-value{
+    font-family:var(--mono); font-size:1.6rem; font-weight:600;
+  }
+  .gauge-sub{color:var(--text-dim); font-size:0.8rem; margin-top:2px;}
+
+  .status-block{
+    background:var(--bg-panel); padding:22px;
+    border-left:4px solid var(--text-dim);
+    transition:border-color 0.2s;
+  }
+  .status-block .status-title{
+    font-family:var(--display); font-weight:600; font-size:1.15rem; margin-bottom:6px;
+  }
+  .status-block p{color:var(--text-dim); font-size:0.88rem;}
+
+  .rep-block{
+    background:var(--bg-panel); padding:20px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .rep-count{font-family:var(--mono); font-size:2.2rem; font-weight:600; color:var(--yellow);}
+
+  .privacy-note{
+    font-family:var(--mono); font-size:0.72rem; color:var(--text-dim);
+    margin-top:14px; line-height:1.6; padding:14px 16px;
+    border:1px dashed var(--line);
+  }
+
+  /* ===== MISTAKES ===== */
+  .mistakes-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px;
+  }
+  .mistake-card{
+    background:var(--bg-panel); border:1px solid var(--line); border-top:3px solid var(--orange);
+    padding:26px;
+  }
+  .mistake-card .m-icon{margin-bottom:14px;}
+  .mistake-card h3{font-family:var(--display); font-weight:500; font-size:1.05rem; margin-bottom:8px;}
+  .mistake-card p{color:var(--text-dim); font-size:0.9rem;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 24px; text-align:center;
+  }
+  footer p{color:var(--text-dim); font-size:0.82rem; max-width:60ch; margin:0 auto 8px;}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;}
+    .practice-wrap{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark">Y</span>ยกให้ถูก</div>
+    <nav>
+      <ul>
+        <li><a href="#principles">หลักการยก</a></li><li><a href="#quiz">แบบทดสอบ</a></li><li><a href="#standing">การยืน</a></li>
+        <li><a href="#practice">ฝึกกับ AI</a></li>
+        <li><a href="#mistakes">ข้อผิดพลาด</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-top:56px;">
+  <div>
+    <div class="eyebrow"><span class="hazard-tab"></span> เรียนรู้การยศาสตร์ • LiftSaveWithAi</div>
+    <h1>เรียนรู้ท่าทาง<br><em>แล้วฝึกอย่างเข้าใจ</em></h1>
+    <p>เรียนหลักการยกและการยืน ทำแบบทดสอบก่อน–หลังเรียน แล้วฝึกผ่านโปรแกรม Python ซึ่งสังเกตมุมลำตัวและข้อต่อ พร้อมแสดงข้อจำกัดของผลประเมิน</p>
+    <div class="btn-row">
+      <a href="#practice" class="btn btn-primary">เริ่มฝึกกับ AI</a>
+      <a href="#principles" class="btn btn-ghost">ดูหลักการก่อน</a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="gauge-label"><span><span class="led"></span>SYSTEM READY</span><span>POSE MONITOR</span></div>
+    <svg viewBox="0 0 320 260" width="100%">
+      <line x1="60" y1="20" x2="60" y2="240" stroke="#2C343D" stroke-width="1" stroke-dasharray="4 4"/>
+      <!-- reference figure: hinge lift -->
+      <circle cx="150" cy="60" r="14" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+      <path d="M150 74 L140 140" stroke="#ECE7DA" stroke-width="3" stroke-linecap="round"/>
+      <path d="M140 140 L120 210" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/>
+      <path d="M120 210 L130 240" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/>
+      <path d="M140 140 L190 205" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/>
+      <path d="M190 205 L185 240" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/>
+      <path d="M150 90 L100 130" stroke="#ECE7DA" stroke-width="3" stroke-linecap="round"/>
+      <path d="M150 90 L195 125" stroke="#ECE7DA" stroke-width="3" stroke-linecap="round"/>
+      <rect x="85" y="128" width="26" height="20" fill="none" stroke="#4FA876" stroke-width="2"/>
+      <!-- angle arc -->
+      <path d="M140 140 A 30 30 0 0 1 140 170" fill="none" stroke="#4FA876" stroke-width="2"/>
+      <text x="90" y="100" fill="#4FA876" font-family="IBM Plex Mono" font-size="12">TRUNK 12°</text>
+      <text x="195" y="175" fill="#F2B705" font-family="IBM Plex Mono" font-size="12">KNEE 96°</text>
+    </svg>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <div style="flex:1; height:3px; background:var(--green);"></div>
+      <div style="flex:1; height:3px; background:var(--line);"></div>
+      <div style="flex:1; height:3px; background:var(--line);"></div>
+    </div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="section-head">
+    <div class="section-tag">ลำดับขั้นตอน</div>
+    <h2>หลักการยกของอย่างถูกยศาสตร์ 5 ขั้น</h2>
+    <p>พิจารณางาน สิ่งของ และพื้นที่ร่วมกับท่าทาง หลักการต่อไปนี้อ้างอิงแนวทาง HSE; ค่ามุมในโปรแกรมเป็นค่าทดลองที่ต้องตรวจสอบเพิ่มเติม</p>
+  </div>
+  <div class="principles-grid">
+
+    <div class="principle-card">
+      <span class="p-num">01</span>
+      <div class="p-svg">
+        <svg viewBox="0 0 120 100" width="100"><circle cx="60" cy="18" r="9" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="60" y1="27" x2="60" y2="60" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="60" y1="60" x2="42" y2="92" stroke="#F2B705" stroke-width="3"/>
+        <line x1="60" y1="60" x2="78" y2="92" stroke="#F2B705" stroke-width="3"/>
+        <line x1="30" y1="94" x2="54" y2="94" stroke="#8B93A0" stroke-width="2" stroke-dasharray="3 3"/>
+        <line x1="66" y1="94" x2="90" y2="94" stroke="#8B93A0" stroke-width="2" stroke-dasharray="3 3"/></svg>
+      </div>
+      <h3>ยืนให้มั่นคง</h3>
+      <p>เตรียมพื้นที่และตำแหน่งเท้าให้มั่นคง เว้นพื้นที่ให้ขยับเท้าได้ และพิจารณาว่าต้องใช้ความช่วยเหลือหรืออุปกรณ์หรือไม่</p>
+    </div>
+
+    <!-- <div class="principle-card">
+      <span class="p-num">02</span>
+      <div class="p-svg">
+        <svg viewBox="0 0 120 100" width="100"><circle cx="55" cy="24" r="9" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+        <path d="M55 33 L48 62" stroke="#ECE7DA" stroke-width="3"/>
+        <path d="M48 62 L38 88" stroke="#F2B705" stroke-width="3"/>
+        <path d="M38 88 L44 96" stroke="#F2B705" stroke-width="3"/>
+        <path d="M48 62 L70 84" stroke="#F2B705" stroke-width="3"/>
+        <path d="M70 84 L66 96" stroke="#F2B705" stroke-width="3"/>
+        <path d="M48 62 A14 14 0 0 1 62 70" fill="none" stroke="#4FA876" stroke-width="2"/></svg>
+      </div> -->
+      <h3>งอสะโพกและเข่าอย่างเหมาะสม</h3> 
+      <p>HSE แนะนำการงอหลัง สะโพก และเข่าเล็กน้อยตอนเริ่มยก ไม่จำเป็นต้องย่อลึกสุด และไม่ควรเพิ่มการก้มหลังระหว่างยก</p>
+    </div>
+
+    <div class="principle-card">
+      <span class="p-num">03</span>
+      <div class="p-svg">
+        <svg viewBox="0 0 120 100" width="100"><circle cx="55" cy="26" r="9" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+        <path d="M55 35 L48 60" stroke="#ECE7DA" stroke-width="3"/>
+        <path d="M48 60 L38 90" stroke="#F2B705" stroke-width="3"/>
+        <path d="M48 60 L68 82" stroke="#F2B705" stroke-width="3"/>
+        <path d="M55 40 L34 58" stroke="#ECE7DA" stroke-width="3"/>
+        <rect x="20" y="55" width="20" height="16" fill="none" stroke="#4FA876" stroke-width="2"/></svg>
+      </div>
+      <h3>จับให้แน่น ของชิดตัว</h3>
+      <p>กระชับมือให้มั่น ให้สิ่งของอยู่ใกล้ลำตัวที่สุด ยิ่งของห่างตัวมาก แรงกดหลังยิ่งเพิ่มเป็นทวีคูณ</p>
+    </div>
+
+    <div class="principle-card">
+      <span class="p-num">04</span>
+      <div class="p-svg">
+        <svg viewBox="0 0 120 100" width="100"><circle cx="58" cy="16" r="9" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="58" y1="25" x2="58" y2="55" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="58" y1="55" x2="44" y2="92" stroke="#F2B705" stroke-width="3"/>
+        <line x1="58" y1="55" x2="72" y2="92" stroke="#F2B705" stroke-width="3"/>
+        <path d="M44 92 L34 55" stroke="#4FA876" stroke-width="3" marker-end="url(#arrow1)"/>
+        <defs><marker id="arrow1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#4FA876"/></marker></defs></svg>
+      </div>
+      <h3>เคลื่อนไหวอย่างราบรื่น</h3>
+      <p>เคลื่อนไหวอย่างราบรื่น หลีกเลี่ยงการกระชาก และพิจารณาการเคลื่อนไหวของลำตัวกับขาร่วมกัน</p>
+    </div>
+
+    <div class="principle-card">
+      <span class="p-num">05</span>
+      <div class="p-svg">
+        <svg viewBox="0 0 120 100" width="100"><circle cx="60" cy="20" r="9" fill="none" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="60" y1="29" x2="60" y2="65" stroke="#ECE7DA" stroke-width="3"/>
+        <line x1="60" y1="65" x2="45" y2="95" stroke="#F2B705" stroke-width="3"/>
+        <line x1="60" y1="65" x2="75" y2="95" stroke="#F2B705" stroke-width="3"/>
+        <path d="M40 40 A22 22 0 0 1 80 40" fill="none" stroke="#4FA876" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow2)"/>
+        <defs><marker id="arrow2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#4FA876"/></marker></defs></svg>
+      </div>
+      <h3>ขยับเท้าเพื่อเปลี่ยนทิศทาง</h3>
+      <p>เปลี่ยนทิศทางด้วยการขยับเท้าหมุนตัวทั้งตัว หลีกเลี่ยงการบิดหมุนที่เอวขณะแบกน้ำหนัก</p>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="quiz">
+ <div class="section-head"><div class="section-tag">ทบทวนความเข้าใจ</div><h2>แบบทดสอบก่อน–หลังเรียน</h2>
+ <p>ทำก่อนอ่านบทเรียนหนึ่งครั้ง แล้วทบทวนอีกครั้งหลังเรียน คะแนนนี้เป็นคะแนนความรู้ แยกจากผลฝึกด้วยกล้อง</p></div>
+ <label for="learner">รหัสผู้เรียน (ใช้รหัสแทนชื่อจริง)</label>
+ <input id="learner" maxlength="40" placeholder="เช่น P001" style="padding:12px;margin:10px;color:#111;">
+ <label for="attemptType">ช่วงทดสอบ</label>
+ <select id="attemptType" style="padding:12px;color:#111;"><option value="pre">ก่อนเรียน</option><option value="post">หลังเรียน</option></select>
+ <form id="quizForm"></form>
+ <p id="quizResult" role="status" aria-live="polite"></p>
+ <button class="btn btn-ghost" id="exportQuiz" type="button" disabled>ดาวน์โหลดผลความรู้ JSON</button>
+ <p class="privacy-note">ผลเก็บเฉพาะในหน้านี้ หากปิดหรือรีเฟรชจะหาย กรุณาดาวน์โหลดก่อนปิด และใช้รหัสเดียวกับโปรแกรมฝึก</p>
+</section>
+<section id="standing">
+ <div class="section-head"><div class="section-tag">การยืนทำงาน</div><h2>เปลี่ยนอิริยาบถและจัดพื้นที่ให้เหมาะกับงาน</h2>
+ <p>CCOHS แนะนำให้เปลี่ยนท่าทางเป็นระยะ มีโอกาสพัก และจัดความสูงกับระยะเอื้อมของงานให้เหมาะสม โปรแกรมต้นแบบสังเกตการเปลี่ยนมุมในภาพได้ แต่ไม่วัดแรงกดเท้าหรือยืนยันความสมดุลของร่างกาย</p></div>
+</section>
+<section id="practice">
+ <div class="section-head"><div class="section-tag">ภาคปฏิบัติ</div><h2>เริ่มฝึกด้วยโปรแกรม LiftSaveWithAi</h2>
+ <p>ใช้โปรแกรม Python จากชุดโปรเจกต์ การประเมินทั้งหมดอยู่ในโปรแกรมและบันทึกผลไว้ในเครื่อง</p></div>
+ <div class="mistakes-grid">
+  <div class="mistake-card"><h3>1. เตรียมระบบ</h3><p>ติดตั้งตาม README_TH.md และวางไฟล์ yolo11n-pose.pt ในโฟลเดอร์ models กล้องควรอยู่แนวระดับและเห็นผู้ฝึกจากด้านข้างเพียงหนึ่งคน ตั้งแต่ไหล่ถึงข้อเท้า</p></div>
+  <div class="mistake-card"><h3>2. เริ่มสังเกตท่าทาง</h3><p>ใช้กล่องเปล่าสำหรับการสาธิตภายใต้การดูแลของผู้สอน เปิดโปรแกรม เลือกโหมด lifting หรือ standing แล้วกด Space เมื่อจัดกล้องเรียบร้อย โปรแกรมไม่ตรวจยืนยันมุมกล้องอัตโนมัติ</p></div>
+  <div class="mistake-card"><h3>3. อ่านผลตามขอบเขต</h3><p>OBSERVED = ไม่พบธงเตือนจากกฎทดลอง, REVIEW = ควรทบทวน, UNKNOWN = ข้อมูลไม่พอ, INCOMPLETE = รอบฝึกไม่ครบ ไม่ใช้ผลเหล่านี้ยืนยันความปลอดภัยทั้งหมด</p></div>
+ </div>
+ <p style="margin-top:24px;">คำสั่งเริ่มฝึก: <code>python app.py --mode lifting --subject P001</code></p>
+ <p>กด Space เพื่อเริ่ม/พัก, R เพื่อตั้งต้นใหม่, Esc เพื่อจบและบันทึกผล โปรแกรมจะแสดงตำแหน่งรายงานหลังจบ</p>
+ <p class="privacy-note">ไม่บันทึกวิดีโอโดยค่าเริ่มต้น รายงานมีรหัสผู้ฝึก มุมที่วัดได้ และผลรายรอบ การย่อแล้วยืนจะถูกเรียกว่า “รอบฝึกท่าทาง” เพราะยังไม่มีการตรวจวัตถุ</p>
+</section>
+<section id="mistakes">
+  <div class="section-head">
+    <div class="section-tag">ระวังไว้</div>
+    <h2>ข้อผิดพลาดที่พบบ่อยที่สุด</h2>
+    <p>ประเด็นต่อไปนี้ควรพิจารณาร่วมกับน้ำหนัก ลักษณะงาน และสภาพแวดล้อม</p>
+  </div>
+  <div class="mistakes-grid">
+    <div class="mistake-card">
+      <svg class="m-icon" viewBox="0 0 60 50" width="48"><path d="M30 8 Q10 30 30 44" stroke="#E8562B" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="30" cy="6" r="6" fill="none" stroke="#ECE7DA" stroke-width="2.5"/></svg>
+      <h3>ก้มหลังโค้งแทนการย่อเข่า</h3>
+      <p>สังเกตการเคลื่อนไหวของลำตัวร่วมกับสะโพกและเข่า มุมเอียงลำตัวจากกล้องไม่ใช่ค่าความโค้งของกระดูกสันหลัง</p>
+    </div>
+    <div class="mistake-card">
+      <svg class="m-icon" viewBox="0 0 60 50" width="48"><circle cx="14" cy="8" r="6" fill="none" stroke="#ECE7DA" stroke-width="2.5"/><line x1="14" y1="15" x2="14" y2="34" stroke="#ECE7DA" stroke-width="3"/><line x1="14" y1="34" x2="48" y2="30" stroke="#E8562B" stroke-width="3" stroke-dasharray="4 3"/><rect x="46" y="24" width="10" height="10" fill="none" stroke="#E8562B" stroke-width="2.5"/></svg>
+      <h3>ยกของไกลจากลำตัว</h3>
+      <p>ยิ่งของอยู่ห่างจุดหมุนสะโพก แรงบิดที่หลังต้องรับยิ่งมากขึ้นตามระยะทาง แม้น้ำหนักของจะเท่าเดิม</p>
+    </div>
+    <div class="mistake-card">
+      <svg class="m-icon" viewBox="0 0 60 50" width="48"><circle cx="30" cy="8" r="6" fill="none" stroke="#ECE7DA" stroke-width="2.5"/><line x1="30" y1="14" x2="30" y2="34" stroke="#ECE7DA" stroke-width="3"/><path d="M18 40 Q30 26 42 40" stroke="#E8562B" stroke-width="3" fill="none"/></svg>
+      <h3>บิดเอวขณะยกหรือถือของ</h3>
+      <p>HSE แนะนำให้ขยับเท้าเพื่อเปลี่ยนทิศทางแทนการบิดลำตัวขณะยก โปรแกรมกล้องด้านข้างชุดนี้ยังประเมินการบิดไม่ได้</p>
+    </div>
+  </div>
+</section>
+
+<section id="references"><div class="section-head"><div class="section-tag">แหล่งอ้างอิง</div><h2>อ่านเพิ่มเติม</h2></div>
+<ul style="line-height:2.2"><li><a href="https://www.hse.gov.uk/msd/manual-handling/good-handling-technique.htm">HSE: Good handling technique</a></li>
+<li><a href="https://www.cdc.gov/niosh/ergonomics/about/rnle.html">NIOSH: Revised NIOSH Lifting Equation</a> — ระบบนี้ยังไม่คำนวณ RNLE</li>
+<li><a href="https://www.ccohs.ca/oshanswers/ergonomics/standing/standing_basic.html">CCOHS: Working in a Standing Position</a></li>
+<li>เอกสารรายวิชา “ท่าทางการทำงานหน่วยที่ทำงาน” หน้า 17 และ 65</li>
+<li><a href="https://www.youtube.com/watch?v=uxoP4PTrDHE">วิดีโอที่ผู้จัดทำระบุ</a> — ยังไม่ได้ตรวจเนื้อหา จึงยังไม่ใช้กำหนดเกณฑ์</li></ul></section><footer>
+  <p>เว็บไซต์นี้จัดทำเพื่อการเรียนรู้หลักการยศาสตร์เบื้องต้น ไม่ใช่การวินิจฉัยหรือคำแนะนำทางการแพทย์ หากมีอาการปวดหลังเรื้อรังควรปรึกษาแพทย์หรือนักกายภาพบำบัด</p>
+  <p style="font-family:var(--mono); font-size:0.72rem;">LEARN ON WEB · PRACTICE IN PYTHON · PROTOTYPE CRITERIA</p>
+</footer>
+
+<script>
+'use strict';
+const questions = [
+ {q:'ก่อนยกควรพิจารณาอะไร?',options:['เฉพาะมุมเข่า','งาน สิ่งของ พื้นที่ และความช่วยเหลือที่จำเป็น','ยกให้เร็วที่สุด'],answer:1,why:'ควรวางแผนและพิจารณาหลายปัจจัยร่วมกัน (HSE)'},
+ {q:'การย่อขณะเริ่มยกควรเป็นอย่างไร?',options:['ย่อลึกที่สุดทุกครั้ง','ให้ลำตัวตั้งฉากตลอดเวลา','งอสะโพกและเข่าอย่างเหมาะสม ไม่จำเป็นต้องย่อลึกสุด'],answer:2,why:'HSE ไม่แนะนำให้ก้มเต็มที่หรือย่อลึกสุดเป็นกฎตายตัว'},
+ {q:'เมื่อเปลี่ยนทิศทางขณะถือของ ควรทำอย่างไร?',options:['ขยับเท้าเพื่อหันไปทิศใหม่','ตรึงเท้าแล้วบิดเอว','ไม่ต้องพิจารณาทิศทาง'],answer:0,why:'HSE แนะนำการเปลี่ยนทิศด้วยเท้าแทนการบิดลำตัว'},
+ {q:'มุมเอียงลำตัวจากจุดไหล่และสะโพกบอกอะไรได้?',options:['น้ำหนักสิ่งของ','ความเอียงในภาพที่กล้องเห็น','ความโค้งของกระดูกสันหลังทุกส่วน'],answer:1,why:'เป็นการวัดแนวลำตัวสองมิติ มีข้อจำกัดตามมุมกล้อง'},
+ {q:'หากกล้องมองไม่เห็นข้อเท้าที่ต้องใช้ประเมิน ควรได้ผลใด?',options:['ผ่านทันที','ใช้ค่าจากคนอื่นแทน','ข้อมูลไม่พอ'],answer:2,why:'ข้อมูลที่หายไม่ควรถูกแทนด้วยค่าที่ทำให้ดูเหมือนผ่าน'},
+ {q:'แนวทางการยืนทำงานที่เหมาะสมคืออะไร?',options:['คงท่าเดียวนานที่สุด','เปลี่ยนอิริยาบถและจัดพื้นที่ทำงานให้เหมาะสม','ตัดสินจากมุมเข่าเพียงค่าเดียว'],answer:1,why:'CCOHS เน้นการเปลี่ยนท่า การพัก และการจัดสถานีงาน'}
+];
+const form=document.getElementById('quizForm');
+questions.forEach((item,i)=>{
+ const field=document.createElement('fieldset'); field.style.cssText='padding:20px;margin:18px 0;border:1px solid #666;';
+ const legend=document.createElement('legend'); legend.textContent=(i+1)+'. '+item.q; field.appendChild(legend);
+ item.options.forEach((option,j)=>{const label=document.createElement('label'); label.style.cssText='display:block;padding:8px;';
+ const input=document.createElement('input'); input.type='radio'; input.name='q'+i; input.value=String(j); input.required=true;
+ label.append(input,document.createTextNode(' '+option)); field.appendChild(label);}); form.appendChild(field);
+});
+const submit=document.createElement('button'); submit.type='submit'; submit.className='btn btn-primary'; submit.textContent='ตรวจคำตอบ'; form.appendChild(submit);
+const attempts=[];
+form.addEventListener('submit',event=>{
+ event.preventDefault(); const data=new FormData(form); let score=0; const answers=[];
+ questions.forEach((item,i)=>{const selected=Number(data.get('q'+i)); const correct=selected===item.answer; if(correct)score++;
+ answers.push({question:i+1,selected,correct});});
+ const type=document.getElementById('attemptType').value;
+ attempts.push({subject_id:document.getElementById('learner').value.trim()||'anonymous',type,score,total:questions.length,answers,time:new Date().toISOString(),quiz_version:'0.2.0'});
+ const result=document.getElementById('quizResult'); result.replaceChildren();
+ const strong=document.createElement('strong'); strong.textContent=`${type==='pre'?'ก่อนเรียน':'หลังเรียน'}: ${score}/${questions.length} คะแนน`; result.appendChild(strong);
+ if(type==='post'){const list=document.createElement('ul'); questions.forEach(item=>{const li=document.createElement('li');li.textContent=item.why;list.appendChild(li);});result.appendChild(list);}
+ else result.appendChild(document.createTextNode(' บันทึกคะแนนแล้ว อ่านบทเรียนและเลือก “หลังเรียน” เพื่อทบทวนพร้อมเฉลย'));
+ document.getElementById('exportQuiz').disabled=false;
+});
+document.getElementById('exportQuiz').addEventListener('click',()=>{
+ const url=URL.createObjectURL(new Blob([JSON.stringify({attempts},null,2)],{type:'application/json'}));
+ const a=document.createElement('a'); a.href=url;a.download='liftsave-knowledge-results.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+</script></body></html>

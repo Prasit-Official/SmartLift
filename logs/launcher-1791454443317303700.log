@@ -1,0 +1,15 @@
+Dashboard: http://127.0.0.1:62822
+[31m[1mrequirements:[0m Ultralytics requirement ['pi-heif'] not found, attempting AutoUpdate...
+Defaulting to user installation because normal site-packages is not writeable
+Collecting pi-heif
+  Downloading pi_heif-1.4.0-cp312-cp312-win_amd64.whl.metadata (6.5 kB)
+Requirement already satisfied: pillow>=11.1.0 in C:\Users\Nonglak\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages (from pi-heif) (11.3.0)
+Downloading pi_heif-1.4.0-cp312-cp312-win_amd64.whl (2.4 MB)
+   ---------------------------------------- 2.4/2.4 MB 11.3 MB/s  0:00:00
+Installing collected packages: pi-heif
+Successfully installed pi-heif-1.4.0
+
+[31m[1mrequirements:[0m AutoUpdate success  10.9s
+WARNING [31m[1mrequirements:[0m [1mRestart runtime or rerun command for updates to take effect[0m
+
+Monitoring error: รองรับภาพ JPG, PNG, BMP และ WEBP เท่านั้น
