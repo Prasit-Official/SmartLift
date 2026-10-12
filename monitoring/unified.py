@@ -71,8 +71,18 @@ class UnifiedEngine:
         person['reasons']+=danger+warnings
         if person['danger_reasons']:person['level']='DANGER'
         elif person['reasons']:person['level']='WARNING'
-        elif person['missing']:person['level']='UNKNOWN'
-        else:person['level']='NONE'
+        elif raw is not None and not (front['candidate'] and front['level']=='UNKNOWN'):
+            person['level']='NONE'
+        else:person['level']='UNKNOWN'
+        # Missing face/zone observations must not erase a valid body assessment.
+        # A visible face alone, or an unresolved frontal bend, is not body clearance.
+        person['posture_level']=('DANGER' if danger else 'WARNING' if lifting.alert_level in ('WARNING','DANGER') or front['level']=='DANGER'
+                                 else 'NONE' if raw is not None and not (front['candidate'] and front['level']=='UNKNOWN') else 'UNKNOWN')
+        person['partial_assessment']=bool(person['missing'])
+        person['posture_feedback']={'NONE':'ท่าทางอยู่ในเกณฑ์ที่ประเมินได้',
+                                    'UNKNOWN':'ยังประเมินท่าทางไม่ได้ครบ — ตรวจจุดไหล่ สะโพก เข่า และข้อเท้า',
+                                    'WARNING':'ท่าทางเข้าเกณฑ์เตือน / กำลังรอยืนยัน',
+                                    'DANGER':'ท่าทางเข้าเกณฑ์อันตราย'}[person['posture_level']]
         person.update(front_bend=front,front_bend_seconds=round(now-state.front_since,1) if state.front_since is not None else 0,posture_seconds=round(now-state.danger_since,1) if state.danger_since is not None else 0,angles=None if raw is None else {k:round(v,1) if isinstance(v,(int,float)) else v for k,v in raw.items()},
                       lift_phase=state.cycle.phase,lift_reps=state.completed,
                       lift_attempts=state.cycle.total,last_rep=state.last_rep,
