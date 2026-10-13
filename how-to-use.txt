@@ -1,0 +1,10 @@
+ขึ้นตอนการใช้งานโปรแกรม
+1.เข้าไปที่ลิงค์ https://github.com/Prasit-Official/SmartLift
+2.เลือกวิธีดาวน์โหลด สามารถโหลดเป็นไฟล์ zip หรือสามรถโคลนโดยใช้ git clone https://github.com/Prasit-Official/SmartLift.git
+3.เมื่อโหลดเรียบร้อยแล้ว เปิด Command Prompt ใน Floder ของไฟล์ที่ดาวน์โหลด แล้วพิมพ์คำสั่งดังนี้ก่อนใช้งาน
+3.1.py -3.11 -m venv .venv .venv\Scripts\activate
+3.2.python -m pip install -r requirements.txt
+3.3.python -m pip install "cv2-enumerate-cameras>=1.2,<2"
+4.จากนั้นใช้คำสั่ง .\.venv312\Scripts\python.exe launcher.py เพื่อใช้งานโปรแกรม
+5.เลือกตัวเลือกการจับภาพตามต้องการและเลือกไฟล์โมเดลให้ถูกต้อง โดยกด "เลือก" > เข้าไปที่ Floder ที่ดาวน์โหลดมา > models/yolo11n-pose.pt
+6.กดเปิดหน้าฝึก และสามารถตั้งค่าขอบเขตต่างๆ รวมไปถึงมุมองศาของจุดต่างๆตามร่างกายที่เราต้องการตรวจจับได้ตามต้องการ
