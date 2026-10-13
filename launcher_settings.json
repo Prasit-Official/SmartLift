@@ -1,14 +1,14 @@
 {
   "mode": "monitoring",
-  "source_type": "image",
+  "source_type": "camera",
   "camera": "0",
   "video": "",
   "image": "C:/Users/Nonglak/OneDrive/เอกสาร/24811.jpg",
-  "camera_name": "",
-  "camera_path": "",
-  "camera_backend": 0,
+  "camera_name": "HD User Facing",
+  "camera_path": "\\\\?\\usb#vid_0408&pid_a061&mi_00#7&203644ec&0&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global",
+  "camera_backend": 700,
   "subject": "",
   "sound": false,
   "side": "left",
-  "model": "C:\\Users\\Nonglak\\OneDrive\\Desktop\\LiftSaveWithAi\\models\\yolo11n-pose.pt"
+  "model": "C:/Users/Super/Desktop/SartLift/SmartLift/models/yolo11n-pose.pt"
 }
